@@ -1,5 +1,5 @@
 // 서비스 워커: 앱 셸을 캐시하여 오프라인에서도 동작하게 한다.
-const CACHE = "englishwrite-v6";
+const CACHE = "englishwrite-v7";
 const ASSETS = [
   "./",
   "./index.html",

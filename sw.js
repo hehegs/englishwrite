@@ -1,5 +1,5 @@
 // 서비스 워커: 앱 셸을 캐시하여 오프라인에서도 동작하게 한다.
-const CACHE = "englishwrite-v7";
+const CACHE = "englishwrite-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -33,7 +33,8 @@ self.addEventListener("fetch", (e) => {
   e.respondWith(
     fetch(e.request)
       .then((res) => {
-        if (res && res.status === 200 && res.type === "basic") {
+        // 같은 출처 파일과 구글 글꼴(CORS) 응답을 캐시해 오프라인에서도 유지
+        if (res && res.ok && (res.type === "basic" || res.type === "cors")) {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put(e.request, copy));
         }

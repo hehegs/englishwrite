@@ -23,7 +23,7 @@
     try {
       localStorage.setItem("ew-settings", JSON.stringify({
         color: board.color, size: board.size, guide: board.guide,
-        setId: currentSet.id,
+        setId: currentSet.id, font: currentFont,
       }));
     } catch (_) {}
   }
@@ -34,7 +34,23 @@
       if (s.size) { board.setSize(s.size); $("#sizeRange").value = s.size; }
       if (s.guide) { board.setGuide(s.guide); $("#guideSelect").value = s.guide; }
       if (s.setId) { const f = WORD_SETS.find((x) => x.id === s.setId); if (f) currentSet = f; }
+      if (s.font && FONTS[s.font]) applyFont(s.font);
     } catch (_) {}
+  }
+
+  // 따라쓰기 가이드 글씨 글꼴 (시스템 폴백 포함)
+  const FONTS = {
+    comic:   '"Comic Neue", "Comic Sans MS", "Segoe Print", cursive',
+    andika:  '"Andika", "Comic Sans MS", sans-serif',
+    patrick: '"Patrick Hand", "Comic Sans MS", cursive',
+    edu:     '"Edu VIC WA NT Beginner", "Comic Sans MS", cursive',
+  };
+  let currentFont = "comic";
+  function applyFont(key) {
+    currentFont = FONTS[key] ? key : "comic";
+    board.setGhostFont(FONTS[currentFont]);
+    const sel = $("#fontSelect");
+    if (sel) sel.value = currentFont;
   }
 
   function markActive(groupSel, attr, value) {
@@ -159,6 +175,9 @@
     });
     $("#guideSelect").addEventListener("change", (e) => {
       board.setGuide(e.target.value); saveSettings();
+    });
+    $("#fontSelect").addEventListener("change", (e) => {
+      applyFont(e.target.value); saveSettings();
     });
 
     // 편집 버튼

@@ -49,6 +49,8 @@ class Handwriting {
     this.cssH = rect.height;
     this.canvas.width = Math.round(rect.width * this.dpr);
     this.canvas.height = Math.round(rect.height * this.dpr);
+    // 화면 폭에 맞춰 4선 한 칸 높이를 조정(좁은 화면에서도 줄이 보이도록)
+    this.lineHeight = this.cssW < 560 ? 92 : 120;
     const ctx = this.ctx;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
     ctx.lineCap = "round";

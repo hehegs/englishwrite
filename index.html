@@ -8,6 +8,11 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <!-- 따라쓰기 가이드 글씨용 영어 학습 글꼴(온라인일 때 적용, 오프라인은 시스템 글꼴로 대체) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Comic+Neue:wght@400;700&family=Patrick+Hand&family=Edu+VIC+WA+NT+Beginner:wght@400;700&display=swap" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -74,6 +79,18 @@
           <option value="fourline">영어 4선</option>
           <option value="grid">모눈</option>
           <option value="blank">빈 종이</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="tool-group">
+      <label class="field thin">
+        <span>글꼴(따라쓰기)</span>
+        <select id="fontSelect">
+          <option value="comic">기본 (둥근체)</option>
+          <option value="andika">또렷한체</option>
+          <option value="patrick">손글씨체</option>
+          <option value="edu">4선 학습체</option>
         </select>
       </label>
     </div>

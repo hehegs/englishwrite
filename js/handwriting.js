@@ -24,6 +24,8 @@ class Handwriting {
     this.size = 4;
     this.guide = "fourline";  // fourline | grid | blank
     this.ghostText = "";      // 따라쓰기용 흐린 글씨
+    // 따라쓰기 가이드 글씨의 글꼴(폴백 포함). app.js에서 setGhostFont로 변경.
+    this.ghostFont = '"Comic Neue", "Comic Sans MS", "Segoe Print", cursive';
 
     this.lineHeight = 120;    // 4선 한 줄(공책 한 칸)의 높이(px)
 
@@ -282,7 +284,7 @@ class Handwriting {
     const fontSize = hasLower ? third * 2 : third * 2.8;
     ctx.save();
     ctx.fillStyle = "rgba(120, 130, 180, 0.22)";
-    ctx.font = `${fontSize}px "Comic Sans MS", "Segoe Print", cursive`;
+    ctx.font = `${fontSize}px ${this.ghostFont}`;
     ctx.textBaseline = "alphabetic";
     ctx.fillText(this.ghostText, 24, yBase);
     ctx.restore();
@@ -294,6 +296,7 @@ class Handwriting {
   setSize(s) { this.size = s; }
   setGuide(g) { this.guide = g; this.render(); }
   setGhost(text) { this.ghostText = text || ""; this.render(); }
+  setGhostFont(css) { this.ghostFont = css; this.render(); }
 
   undo() {
     if (!this.strokes.length) return;

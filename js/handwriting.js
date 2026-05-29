@@ -275,7 +275,11 @@ class Handwriting {
     const pad = 16;
     const third = lh / 3;
     const yBase = pad + third * 2;       // 기준선
-    const fontSize = third * 2;          // x-height + ascender 정도
+    // 소문자가 있으면 x-높이(가운데 칸) 기준으로 크기를 잡는다.
+    // 대문자/숫자만 있는 단어(대문자 알파벳·숫자 연습)는 글꼴 특성상
+    // 작게 보이므로 더 키워서 윗줄까지 칸을 꽉 채운다.
+    const hasLower = /[a-z]/.test(this.ghostText);
+    const fontSize = hasLower ? third * 2 : third * 2.8;
     ctx.save();
     ctx.fillStyle = "rgba(120, 130, 180, 0.22)";
     ctx.font = `${fontSize}px "Comic Sans MS", "Segoe Print", cursive`;

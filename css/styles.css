@@ -200,18 +200,24 @@ select {
   .brand { font-size: 16px; }
   .topbar { gap: 10px; padding: 8px 12px; }
 
-  /* 도구 바를 촘촘하게 + 가로 스크롤로 한 줄에 모음 → 캔버스 공간 확보 */
+  /* 도구 바: 여러 줄로 줄바꿈해 모든 버튼이 보이게(캔버스 높이는 아래서 따로 보장) */
   .toolbar {
-    gap: 8px;
-    padding: 6px 10px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    gap: 8px 10px;
+    padding: 8px 10px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  .toolbar .tool-group { flex: 0 0 auto; }
-  .tool { width: 38px; height: 38px; font-size: 19px; }
-  .swatch { width: 26px; height: 26px; }
-  .field.thin { min-width: 84px; }
-  .pill { padding: 8px 11px; font-size: 13px; }
+  .tool-group { flex: 0 0 auto; }
+  /* 편집 버튼(취소/다시/지우기/저장)은 한 줄을 통째로 차지해 또렷하게 */
+  .tool-group.push-right {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+  .tool { width: 40px; height: 40px; font-size: 20px; }
+  .swatch { width: 28px; height: 28px; }
+  .field.thin { min-width: 96px; }
+  .pill { padding: 9px 13px; font-size: 14px; }
 
   /* 단어 연습 바도 압축 */
   .practice-bar { gap: 8px; padding: 8px 12px; }

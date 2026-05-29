@@ -29,7 +29,18 @@ class Handwriting {
 
     this._bind();
     this.resize();
+
+    // 캔버스의 실제 표시 크기가 바뀔 때마다 버퍼를 다시 맞춘다.
+    // (모드 전환·주소창 변화·flex 재배치 등 window resize가 안 뜨는 경우까지 포착해
+    //  터치 좌표가 어긋나지 않게 한다.)
+    if (typeof ResizeObserver !== "undefined") {
+      this._ro = new ResizeObserver(() => this.resize());
+      this._ro.observe(this.canvas);
+    }
     window.addEventListener("resize", () => this.resize());
+    window.addEventListener("orientationchange", () =>
+      setTimeout(() => this.resize(), 200)
+    );
   }
 
   _bind() {
@@ -45,14 +56,22 @@ class Handwriting {
 
   resize() {
     const rect = this.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    // 크기가 0이거나 이전과 동일하면 다시 그리지 않는다(중복/무한 루프 방지)
+    if (rect.width === 0 || rect.height === 0) return;
+    if (this.cssW === rect.width && this.cssH === rect.height && this.dpr === dpr) {
+      return;
+    }
+    this.dpr = dpr;
     this.cssW = rect.width;
     this.cssH = rect.height;
-    this.canvas.width = Math.round(rect.width * this.dpr);
-    this.canvas.height = Math.round(rect.height * this.dpr);
+    // 버퍼 크기를 실제 표시 크기에 정확히 일치시킨다(좌표 어긋남 방지)
+    this.canvas.width = Math.round(rect.width * dpr);
+    this.canvas.height = Math.round(rect.height * dpr);
     // 화면 폭에 맞춰 4선 한 칸 높이를 조정(좁은 화면에서도 줄이 보이도록)
     this.lineHeight = this.cssW < 560 ? 92 : 120;
     const ctx = this.ctx;
-    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     this.render();

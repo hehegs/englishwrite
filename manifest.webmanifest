@@ -1,0 +1,20 @@
+{
+  "name": "영어 쓰기 연습",
+  "short_name": "영어쓰기",
+  "description": "크롬북에서 스타일러스로 영어 손글씨를 연습하고 받아쓰기를 할 수 있는 학생용 쓰기 앱",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef1f8",
+  "theme_color": "#3949ab",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

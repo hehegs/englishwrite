@@ -157,19 +157,19 @@ select {
 .pill.primary:hover { background: var(--primary-dark); color: #fff; }
 
 /* ---- 캔버스 ---- */
-/* flex:1 0 auto + min-height 로 캔버스가 항상 충분한 높이를 갖도록 보장.
-   데스크톱/크롬북에선 남는 공간을 모두 채우고, 화면이 좁아 도구 바가 많을 땐
-   페이지가 스크롤되어 쓰기 영역이 찌부러지지 않는다. */
+/* 캔버스는 도구 바 아래 '남는 공간'을 모두 채운다(flex grow).
+   min-height는 작은 바닥값만 두어, 공간이 넉넉하면 크게 채우고
+   (자유 필기), 단어 바가 있어 공간이 좁아도 너무 작아지지 않게 한다. */
 .canvas-wrap {
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   display: flex;
   position: relative;
   padding: 12px;
-  min-height: 62vh;
+  min-height: 240px;
 }
 #board {
   flex: 1;
-  min-height: 380px;
+  min-height: 200px;
   background: #fff;
   border-radius: var(--radius);
   box-shadow: 0 2px 14px rgba(40, 53, 147, 0.12);
@@ -219,14 +219,16 @@ select {
   .field.thin { min-width: 96px; }
   .pill { padding: 9px 13px; font-size: 14px; }
 
-  /* 단어 연습 바도 압축 */
-  .practice-bar { gap: 8px; padding: 8px 12px; }
+  /* 단어 연습 바를 납작하게 압축해 캔버스에 더 많은 공간을 준다 */
+  .practice-bar { gap: 6px 8px; padding: 6px 10px; }
   .prompt { flex-basis: 100%; order: -1; }
-  .prompt .word { font-size: 24px; }
-  .prompt .meaning, .prompt .hint { font-size: 14px; }
+  .prompt .word { font-size: 22px; }
+  .prompt .meaning, .prompt .hint { font-size: 13px; }
   .practice-right { gap: 6px; }
+  .practice-bar .pill { padding: 7px 11px; font-size: 13px; }
+  .progress { padding: 3px 10px; }
 
-  /* 좁은 화면에선 캔버스를 화면 높이만큼 충분히 */
-  .canvas-wrap { min-height: 68vh; padding: 8px; }
-  #board { min-height: 320px; }
+  /* 캔버스는 남는 공간을 채우되 바닥값만 작게(스크롤 강제 안 함) */
+  .canvas-wrap { min-height: 200px; padding: 8px; }
+  #board { min-height: 180px; }
 }

@@ -1,5 +1,5 @@
 // 서비스 워커: 앱 셸을 캐시하여 오프라인에서도 동작하게 한다.
-const CACHE = "englishwrite-v2";
+const CACHE = "englishwrite-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,21 +26,19 @@ self.addEventListener("activate", (e) => {
   self.clients.claim();
 });
 
-// 캐시 우선, 없으면 네트워크에서 가져와 캐시에 저장
+// 네트워크 우선: 온라인이면 항상 최신 파일을 받아 캐시를 갱신하고,
+// 오프라인일 때만 캐시한 버전을 보여준다(업데이트가 새로고침만으로 즉시 반영됨).
 self.addEventListener("fetch", (e) => {
   if (e.request.method !== "GET") return;
   e.respondWith(
-    caches.match(e.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(e.request)
-        .then((res) => {
-          if (res && res.status === 200 && res.type === "basic") {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => c.put(e.request, copy));
-          }
-          return res;
-        })
-        .catch(() => cached);
-    })
+    fetch(e.request)
+      .then((res) => {
+        if (res && res.status === 200 && res.type === "basic") {
+          const copy = res.clone();
+          caches.open(CACHE).then((c) => c.put(e.request, copy));
+        }
+        return res;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
